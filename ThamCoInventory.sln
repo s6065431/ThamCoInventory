@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29409.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThamCoInventory", "ThamCoInventory\ThamCoInventory.csproj", "{FEB7F28D-D05B-4DF1-87EC-F375993FE085}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Inventorydata.data", "Inventorydata.data\Inventorydata.data.csproj", "{62C943D5-9F61-407C-AC88-3F7588603745}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FEB7F28D-D05B-4DF1-87EC-F375993FE085}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEB7F28D-D05B-4DF1-87EC-F375993FE085}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEB7F28D-D05B-4DF1-87EC-F375993FE085}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEB7F28D-D05B-4DF1-87EC-F375993FE085}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62C943D5-9F61-407C-AC88-3F7588603745}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62C943D5-9F61-407C-AC88-3F7588603745}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62C943D5-9F61-407C-AC88-3F7588603745}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62C943D5-9F61-407C-AC88-3F7588603745}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0894C1E8-5860-43A7-AB3F-70B01345A584}
+	EndGlobalSection
+EndGlobal
