@@ -49,9 +49,9 @@
                 @Html.DisplayFor(modelItem => item.ApprovalStatus)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Edit", "Edit", new {item.ID}) |
+                @Html.ActionLink("Details", "Details", new { item.ID }) |
+                @Html.ActionLink("Delete", "Delete", new { item.ID})
             </td>
         </tr>
 }

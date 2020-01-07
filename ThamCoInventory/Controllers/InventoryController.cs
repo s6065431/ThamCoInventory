@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Inventorydata.data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,19 +22,30 @@ namespace ThamCoInventory.Controllers
         // GET: Inventory
         public async Task<IActionResult> Index()
         {
-            var inventoryDb = _context.StockRequests.Include(p => p.Product)
-                                                    .Include(p => p.Staff);
-            return View(await inventoryDb.ToListAsync());
+            return View(await _context.StockRequests.ToListAsync());
         }
 
         // GET: Inventory/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Details(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var stockRequest = await _context.StockRequests
+                                             .FirstOrDefaultAsync(s => s.ID == id);
+
+            if (stockRequest == null)
+            {
+                return NotFound();
+            }
+
+            return View(stockRequest);
         }
 
         // GET: Inventory/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
             return View();
         }
@@ -41,64 +53,98 @@ namespace ThamCoInventory.Controllers
         // POST: Inventory/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create([Bind("ID, ProductID, StaffID, RequestedQuantity, ApprovalStatus")] StockRequest stockRequest)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                stockRequest.ProductID = 1;
+                stockRequest.StaffID = 1;
+                _context.Add(stockRequest);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(stockRequest);
         }
 
         // GET: Inventory/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var stockRequest = await _context.StockRequests.FindAsync(id);
+            if (stockRequest == null)
+            {
+                return NotFound();
+            }
+            return View(stockRequest);
         }
 
         // POST: Inventory/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, [Bind("RequestedQuantity, ApprovalStatus, ID, ProductID, StaffID")] StockRequest stockRequest)
         {
-            try
+            if (id != stockRequest.ID)
             {
-                // TODO: Add update logic here
+                return NotFound();
+            }
 
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(stockRequest);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!StockRequestExists(stockRequest.ID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(stockRequest);
         }
 
         // GET: Inventory/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var stockRequest = await _context.StockRequests
+                                             .FirstOrDefaultAsync(s => s.ID == id);
+            if (stockRequest == null)
+            {
+                return NotFound();
+            }
+            return View(stockRequest);
         }
 
         // POST: Inventory/Delete/5
-        [HttpPost]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var stockRequest = await _context.StockRequests.FindAsync(id);
+            _context.StockRequests.Remove(stockRequest);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        private bool StockRequestExists(int id)
+        {
+            return _context.StockRequests.Any(s => s.ID == id);
         }
     }
 }
